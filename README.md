@@ -17,5 +17,4 @@ If you want to clear all the messages, connect over serial (115200 baud) and sen
 # TODO: 
 
 * [ ] Make SPIFFS delete old messages when we start to run out of room (but how do I detect it?)
-
 * [ ] Limit message size
