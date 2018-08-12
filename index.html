@@ -7,7 +7,7 @@
 	<body>
 		<div><p><b>ChatterBox</b></p></div>
 		<noscript>
-			<p>Sorry, you'll need javascript to add a post... but here's what people have been saying:</p>
+			<p>Sorry, you'll need javascript to submit a post... but here's what people have been saying:</p>
 			<iframe sandbox src="./posts"></iframe>
 		</noscript>
 		<div id="l"></div>
@@ -16,34 +16,42 @@
 		</div>
 	
 		<script type="text/javascript">
-			f=fetch;
-			l=console.error;
+			var log=console.error;
 			
-			$=i=>document.getElementById(i)||{};
+			var $=i=>document.getElementById(i);
 			
-			g=z=>f('./posts')
-				.then(r=>r.text())
-				.then(t=>$('l').innerHTML=t
-					.split('\u001e')
-					.map(s=>s.replace(/</g,'&lt;'))
-					.map(s=>s.replace(/>/g,'&gt;'))
-					.map(s=>s.replace(/\n/g,'<br>'))
-					.map(s=>'<p>'+s+'</p>')
-					.join('')
-				)
-				.catch(l);
+			var ready=true;
+			g=()=>{/*get new messages*/
+				if(!ready){return;}
+				fetch('./posts')
+					.then(r=>r.text())
+					.then((t)=>{
+						$('l').innerHTML=t
+							.split('\u001e')
+							.map(s=>s.replace(/</g,'&lt;'))
+							.map(s=>s.replace(/>/g,'&gt;'))
+							.map(s=>s.replace(/\n/g,'<br>'))
+							.map(s=>'<p>'+s+'</p>')
+							.join('');
+						ready=true;
+					})
+					.catch((e)=>{
+						log(e);
+						ready=true;
+					});
+			};
 			
 			g();
 			setInterval(g,1000);
 			
 			$('s').addEventListener('click',e=>{
-				f('./post',{method:'POST',body:$('t').value})
+				fetch('./post',{method:'POST',body:$('t').value})
 					.then(r=>{
 						$('t').value='';
 						g();
 					})
 					.catch(e=>{
-						l();
+						log(e);
 						g();
 					})
 			});
