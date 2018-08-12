@@ -4,7 +4,7 @@ The UI is simple and looks like this: [https://cdn.rawgit.com/fenwick67/esp32-ch
 
 # Compiling
 
-Use the arduino toolchain, and make sure you've added `https://dl.espressif.com/dl/package_esp32_index.json` to your Boards Manager.
+Use the arduino toolchain, and make sure you've added `https://dl.espressif.com/dl/package_esp32_index.json` to your Boards Manager. Then select your board, compile and upload, it should start with an empty message list.
 
 # Usage
 
